@@ -1,0 +1,14 @@
+{
+  "editor.renderControlCharacters": true,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "javascript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "tslint.exclude": [
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
+}

@@ -1,0 +1,16 @@
+{
+  "mode": "modules",
+  "out": "__documentation__",
+  "theme": "default",
+  "ignoreCompilerErrors": "true",
+  "experimentalDecorators": "true",
+  "emitDecoratorMetadata": "true",
+  "target": "es2018",
+  "moduleResolution": "node",
+  "preserveConstEnums": "true",
+  "stripInternal": "true",
+  "suppressExcessPropertyErrors": "true",
+  "suppressImplicitAnyIndexErrors": "true",
+  "module": "commonjs",
+  "exclude": "**/{node_modules/**/*,*.spec}.ts"
+}

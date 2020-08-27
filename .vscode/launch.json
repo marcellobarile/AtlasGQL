@@ -1,0 +1,26 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "timeout": 60000,
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": null,
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run-script",
+        "debug"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "sourceMaps": true,
+      "console": "internalConsole",
+      "port": 9229
+    }
+  ]
+}

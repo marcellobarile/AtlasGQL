@@ -1,0 +1,35 @@
+{
+  "id": "",
+  "name": "",
+  "targetDomain": "",
+  "defaults": {
+    "port": 3000,
+    "addr": "localhost"
+  },
+  "graphql": {
+    "path": "/graphql"
+  },
+  "rest": {
+    "path": "/static"
+  },
+  "views": {
+    "src": "__root/server/views/",
+    "engine": "ejs"
+  },
+  "cors": {
+    "acceptedDomains": [
+      "*"
+    ],
+    "methods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "PATCH",
+      "POST",
+      "DELETE"
+    ],
+    "preflightContinue": false,
+    "optionsSuccessStatus": 200
+  },
+  "remotes": {}
+}
