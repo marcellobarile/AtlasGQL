@@ -10,7 +10,7 @@ class Conf {
   static ServerEnv: string;
   static ServerEnvId: string | number;
 
-  static AppVersion = '1.0.1';
+  static AppVersion = '1.0.2';
   static AppName = CONFS.name || new Date().getTime().toString(16);
   static AppStartedAt: number = new Date().getTime();
 
