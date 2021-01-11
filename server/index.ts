@@ -20,7 +20,7 @@ class GraphQlServer {
     path: string,
     app: any,
     corsOpts: any,
-    developmentMode: boolean,
+    developmentMode: boolean
   ): Promise<void> {
     const schema = await buildSchema({
       resolvers: resolvers as any,
@@ -38,7 +38,7 @@ class GraphQlServer {
       formatResponse: formatResponse as any,
       formatError,
       validationRules,
-      introspection: developmentMode,
+      introspection: true,
       playground: developmentMode,
     });
 

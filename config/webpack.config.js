@@ -5,20 +5,17 @@ module.exports = {
   entry: `${root}/bin/www.ts`,
   target: 'node',
   externals: [
-    /^[a-z\-0-9]+$/ // Ignore node_modules folder
+    /^[a-z\-0-9]+$/, // Ignore node_modules folder
   ],
   output: {
-    filename: 'compiled', // output file
+    filename: 'compiled.dev.js',
     path: `${root}/build`,
-    libraryTarget: "commonjs"
+    libraryTarget: 'commonjs',
   },
-  devtool: "eval-source-map",
+  devtool: 'eval-source-map',
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js'],
-    modules: [
-      `${root}/node_modules`,
-      'node_modules'
-    ]
+    modules: [`${root}/node_modules`, 'node_modules'],
   },
   module: {
     rules: [
@@ -26,10 +23,10 @@ module.exports = {
         test: /\.ts$/,
         use: [
           {
-            loader: 'ts-loader'
-          }
-        ]
-      }
-    ]
-  }
+            loader: 'ts-loader',
+          },
+        ],
+      },
+    ],
+  },
 };

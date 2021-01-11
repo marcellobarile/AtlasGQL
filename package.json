@@ -1,6 +1,6 @@
 {
   "name": "type-graphql-has",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "TypeScript + Express + Apollo Server + Apollo Engine + GraphQL",
   "private": true,
   "directories": {
@@ -9,10 +9,10 @@
   "scripts": {
     "help:run": "node ./bin/wizard.js",
     "help:update": "npx npm-check-updates -u",
-    "debug": "npm run build:dev && cross-env NODE_TARGET_ENV=development NODE_ENV_ID=1 node --inspect-brk=9229 build/compiled",
-    "dev": "npm run build:dev && cross-env NODE_TARGET_ENV=development NODE_ENV_ID=1 node build/compiled",
-    "stage": "npm run build:stage && cross-env NODE_TARGET_ENV=stage NODE_ENV_ID=1 node build/compiled",
-    "prod": "npm run build:prod && cross-env NODE_TARGET_ENV=production NODE_ENV_ID=1 node build/compiled",
+    "debug": "npm run build:dev && cross-env NODE_TARGET_ENV=development NODE_ENV_ID=1 node --inspect-brk=9229 build/compiled.dev.js",
+    "dev": "npm run build:dev && cross-env NODE_TARGET_ENV=development NODE_ENV_ID=1 node build/compiled.dev.js",
+    "stage": "npm run build:stage && cross-env NODE_TARGET_ENV=stage NODE_ENV_ID=1 node build/compiled.stage.js",
+    "prod": "npm run build:prod && cross-env NODE_TARGET_ENV=production NODE_ENV_ID=1 node build/compiled.prod.js",
     "lint": "tslint -c tslint.json 'server/**/*.{ts}'",
     "test": "npm run lint && jest",
     "prepare-graphql": "npm run generate-graphql-schema && npm run gql2ts && npm run generate-fragments",
@@ -102,7 +102,7 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/marcellobarile/type-graphql-has"
   },
   "engines": {
     "node": ">=7.8.0",
