@@ -76,6 +76,7 @@
     "webpack-cli": "^4.7.2"
   },
   "dependencies": {
+    "class-validator": "^0.13.1",
     "@graphql-tools/schema": "^7.1.5",
     "apollo-server": "^3.0.2",
     "apollo-server-express": "^3.0.2",
