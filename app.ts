@@ -29,27 +29,18 @@ if (Conf.CORSEnabled) {
   console.log('!!! Enabling CORS', Conf.Origin, Conf.AcceptedMethods);
 
   corsOptions = {
-    origin: Conf.Origin,
+    origin: (origin, callback) => {
+      if (!origin || (origin && Conf.Origin.indexOf(origin) !== -1)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: Conf.AcceptedMethods,
     preflightContinue: Conf.PreflightContinue,
     optionsSuccessStatus: Conf.OptionsSuccessStatus,
     credentials: true,
   };
-
-  app.use((req, res, next) => {
-    const origin = req.headers.origin;
-
-    if (origin && Conf.Origin.includes(origin)) {
-      res.header('Access-Control-Allow-Origin', origin);
-    }
-
-    res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-    );
-
-    next();
-  });
 
   // Support pre-flight for all the requests
   app.options(Conf.Origin, cors(corsOptions) as express.RequestHandler);

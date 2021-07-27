@@ -12,7 +12,7 @@
     "debug": "npm run build:dev && cross-env NODE_ENV=development NODE_ENV_ID=1 node --inspect-brk=9229 build/compiled.dev.js",
     "dev": "npm run build:dev && cross-env NODE_ENV=development NODE_ENV_ID=1 node build/compiled.dev.js",
     "stage": "npm run build:stage && cross-env NODE_ENV=stage NODE_ENV_ID=1 node build/compiled.stage.js",
-    "prod": "npm run build:prod && cross-env NODE_ENV=production NODE_ENV_ID=1 node build/compiled.prod.js",
+    "prod": "cross-env NODE_ENV=production NODE_ENV_ID=1 node build/compiled.prod.js",
     "lint": "tslint -c tslint.json 'server/**/*.{ts}'",
     "test": "npm run lint && jest",
     "prepare-graphql": "npm run generate-graphql-schema && npm run gql2ts && npm run generate-fragments",
