@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, CorsOptions } from 'apollo-server-express';
 import { execute, GraphQLSchema, subscribe } from 'graphql';
 import { Server } from 'http';
 import pathUtils from 'path';
@@ -20,7 +20,7 @@ class GraphQlServer {
   public static async createServer(
     path: string,
     app: any,
-    corsOpts: any,
+    corsOpts: CorsOptions | boolean,
     developmentMode: boolean
   ): Promise<void> {
     const schema = await buildSchema({
@@ -32,6 +32,8 @@ class GraphQlServer {
     if (middlewares.beforeApollo.length > 0) {
       app.use(path, [...middlewares.beforeApollo]);
     }
+
+    app.disable('x-powered-by');
 
     this.server = new ApolloServer({
       schema,

@@ -1,6 +1,6 @@
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
+import cors, { CorsOptions } from 'cors';
 import express from 'express';
 import logger from 'morgan';
 import multer from 'multer';
@@ -24,31 +24,36 @@ const isDev =
 const app = express();
 
 // CORS options
-const corsOptions = {
-  origin: Conf.AcceptedDomains,
-  methods: Conf.AcceptedMethods,
-  preflightContinue: Conf.PreflightContinue,
-  optionsSuccessStatus: Conf.OptionsSuccessStatus,
-  credentials: true,
-};
+let corsOptions: CorsOptions | boolean = false;
+if (Conf.CORSEnabled) {
+  console.log('!!! Enabling CORS', Conf.Origin, Conf.AcceptedMethods);
 
-app.use((req, res, next) => {
-  const origin = req.headers.origin;
+  corsOptions = {
+    origin: Conf.Origin,
+    methods: Conf.AcceptedMethods,
+    preflightContinue: Conf.PreflightContinue,
+    optionsSuccessStatus: Conf.OptionsSuccessStatus,
+    credentials: true,
+  };
 
-  if (origin && Conf.AcceptedDomains.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
+  app.use((req, res, next) => {
+    const origin = req.headers.origin;
 
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
+    if (origin && Conf.Origin.includes(origin)) {
+      res.header('Access-Control-Allow-Origin', origin);
+    }
 
-  next();
-});
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept'
+    );
 
-// Support pre-flight for all the requests
-app.options(Conf.AcceptedDomains, cors(corsOptions) as express.RequestHandler);
+    next();
+  });
+
+  // Support pre-flight for all the requests
+  app.options(Conf.Origin, cors(corsOptions) as express.RequestHandler);
+}
 
 // -------------------
 //  Apollo Server
@@ -70,7 +75,11 @@ app.use(
 // ------------------------
 // REST
 // ------------------------
-app.use(Conf.RestPath, cors(corsOptions), restRoutes);
+if (corsOptions) {
+  app.use(Conf.RestPath, cors(corsOptions), restRoutes);
+} else {
+  app.use(Conf.RestPath, restRoutes);
+}
 
 // ------------------------
 // MISC.

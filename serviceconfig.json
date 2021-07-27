@@ -17,7 +17,7 @@
     "engine": "ejs"
   },
   "cors": {
-    "acceptedDomains": [
+    "origin": [
       "*",
       "https://studio.apollographql.com"
     ],
@@ -29,6 +29,7 @@
       "POST",
       "DELETE"
     ],
+    "enabled": true,
     "preflightContinue": false,
     "optionsSuccessStatus": 200
   },
