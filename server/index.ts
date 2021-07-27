@@ -1,10 +1,10 @@
-import 'reflect-metadata';
-
 import { ApolloServer } from 'apollo-server-express';
+import { execute, GraphQLSchema, subscribe } from 'graphql';
 import { Server } from 'http';
 import pathUtils from 'path';
+import 'reflect-metadata';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { buildSchema } from 'type-graphql';
-
 import context from './context';
 import formatError from './errors';
 import formatResponse from './extensions';
@@ -14,6 +14,7 @@ import validationRules from './validationRules';
 
 class GraphQlServer {
   public static server: ApolloServer;
+  public static subscriptionServer: SubscriptionServer;
   public static httpServer: Server;
 
   public static async createServer(
@@ -39,9 +40,11 @@ class GraphQlServer {
       formatError,
       validationRules,
       introspection: true,
-      playground: developmentMode,
     });
 
+    await this.server.start();
+
+    // Registering middlewares on Apollo
     this.server.applyMiddleware({
       app,
       path,
@@ -53,11 +56,33 @@ class GraphQlServer {
       app.use(path, [...middlewares.afterApollo]);
     }
 
+    // Registering dev middlewares after Apollo
     if (developmentMode && middlewares.dev.length > 0) {
       app.use(path, [...middlewares.dev]);
     }
 
-    this.server.installSubscriptionHandlers(GraphQlServer.httpServer);
+    this.createSubscriptionServer(schema);
+  }
+
+  /**
+   * Registers the subscription server for GraphQL subscriptions.
+   */
+  private static createSubscriptionServer(schema: GraphQLSchema): void {
+    this.subscriptionServer = SubscriptionServer.create(
+      {
+        schema,
+        execute,
+        subscribe,
+      },
+      {
+        server: this.httpServer,
+        path: this.server.graphqlPath,
+      }
+    );
+
+    ['SIGINT', 'SIGTERM'].forEach((signal) => {
+      process.on(signal, () => this.subscriptionServer.close());
+    });
   }
 }
 

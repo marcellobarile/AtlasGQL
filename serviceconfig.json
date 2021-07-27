@@ -18,7 +18,8 @@
   },
   "cors": {
     "acceptedDomains": [
-      "*"
+      "*",
+      "https://studio.apollographql.com"
     ],
     "methods": [
       "GET",

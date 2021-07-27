@@ -1,4 +1,5 @@
-import { PubSub } from 'apollo-server';
+// TODO: See https://www.apollographql.com/docs/apollo-server/data/subscriptions/
+import { PubSub } from 'graphql-subscriptions';
 
 class PubSubManager {
   public static ON_DATA_MSG = 'onData';

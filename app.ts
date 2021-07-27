@@ -1,4 +1,3 @@
-import bodyParser from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -6,7 +5,6 @@ import express from 'express';
 import logger from 'morgan';
 import multer from 'multer';
 import request from 'request-promise-native';
-
 import { Conf } from './config/common';
 import { GraphQlServer } from './server';
 import { Common } from './server/helpers/common';
@@ -26,7 +24,6 @@ const isDev =
 const app = express();
 
 // CORS options
-// TODO: Use a flag to enable/disable CORS
 const corsOptions = {
   origin: Conf.AcceptedDomains,
   methods: Conf.AcceptedMethods,
@@ -35,8 +32,23 @@ const corsOptions = {
   credentials: true,
 };
 
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+
+  if (origin && Conf.AcceptedDomains.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+
+  next();
+});
+
 // Support pre-flight for all the requests
-app.options(Conf.AcceptedDomains, cors(corsOptions));
+app.options(Conf.AcceptedDomains, cors(corsOptions) as express.RequestHandler);
 
 // -------------------
 //  Apollo Server
@@ -44,7 +56,6 @@ app.options(Conf.AcceptedDomains, cors(corsOptions));
 GraphQlServer.createServer(Conf.GraphQlPath, app, corsOptions, isDev);
 
 if (isDev) {
-  // Enabling Request module debug
   request.debug = true;
 }
 
@@ -64,18 +75,13 @@ app.use(Conf.RestPath, cors(corsOptions), restRoutes);
 // ------------------------
 // MISC.
 // ------------------------
-// view engine setup
 app.set('views', Conf.ViewsSrcPath);
 app.set('view engine', Conf.ViewsEngine);
 
 app.use(logger('dev'));
 app.use(compression());
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: false,
-  })
-);
+app.use(express.json());
+app.use(express.urlencoded());
 app.use(cookieParser());
 
 export { app };

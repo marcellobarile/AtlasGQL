@@ -1,5 +1,4 @@
 import root from 'app-root-path';
-
 import CUSTOM_CONFS from '../serviceconfig.custom.json';
 import CONFS from '../serviceconfig.json';
 
@@ -10,7 +9,7 @@ class Conf {
   static ServerEnv: string;
   static ServerEnvId: string | number;
 
-  static AppVersion = '1.0.3';
+  static AppVersion = '1.1.0';
   static AppName = CONFS.name || new Date().getTime().toString(16);
   static AppStartedAt: number = new Date().getTime();
 
