@@ -3,23 +3,23 @@ module.exports = {
    * Application configuration section
    * http://pm2.keymetrics.io/docs/usage/application-declaration/
    */
-  apps : [
+  apps: [
     {
-      name                : 'MY-AWESOME-GQL-API',
-      script              : 'build/compiled',
-      instances           : 1,
-      exec_mode           : "cluster",
-      max_memory_restart  : "200M",
+      name: 'MY-AWESOME-GQL-API',
+      script: 'build/compiled',
+      instances: 1,
+      exec_mode: 'cluster',
+      max_memory_restart: '200M',
       env: {
-        NODE_ENV          : 'development',
-        NODE_TARGET_ENV   : 'development',
-        NODE_ENV_ID       : '1',
+        NODE_ENV: 'development',
+        NODE_ENV: 'development',
+        NODE_ENV_ID: '1',
       },
-      env_production : {
-        NODE_ENV          : 'production',
-        NODE_TARGET_ENV   : 'production',
-        NODE_ENV_ID       : '1',
-      }
+      env_production: {
+        NODE_ENV: 'production',
+        NODE_ENV: 'production',
+        NODE_ENV_ID: '1',
+      },
     },
   ],
 

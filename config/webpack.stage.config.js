@@ -12,6 +12,7 @@ module.exports = {
     path: `${root}/build`,
     libraryTarget: 'commonjs',
   },
+  devtool: 'eval-source-map',
   resolve: {
     extensions: ['.webpack.js', '.web.js', '.ts', '.js'],
     modules: [`${root}/node_modules`, 'node_modules'],

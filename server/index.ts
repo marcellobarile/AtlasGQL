@@ -1,3 +1,4 @@
+import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
 import { ApolloServer, CorsOptions } from 'apollo-server-express';
 import { execute, GraphQLSchema, subscribe } from 'graphql';
 import { Server } from 'http';
@@ -42,6 +43,9 @@ class GraphQlServer {
       formatError,
       validationRules,
       introspection: true,
+      plugins: !developmentMode
+        ? [ApolloServerPluginLandingPageDisabled()]
+        : undefined,
     });
 
     await this.server.start();

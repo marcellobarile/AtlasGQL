@@ -13,7 +13,7 @@ import restRoutes from './server/routes/rest';
 // Store some confs
 Conf.ServerAddr = process.env.ADDR || Conf.DefaultAppAddr;
 Conf.ServerPort = process.env.PORT || String(Conf.DefaultAppPort);
-Conf.ServerEnv = process.env.NODE_TARGET_ENV || Common.constants.ENV_DEV;
+Conf.ServerEnv = process.env.NODE_ENV || Common.constants.ENV_DEV;
 Conf.ServerEnvId = process.env.NODE_ENV_ID || 1;
 Conf.ServerKey = `${Conf.AppName}:${Conf.ServerEnv}-${Conf.ServerEnvId}`;
 
