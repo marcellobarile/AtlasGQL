@@ -71,7 +71,7 @@ schema.graphql
 schema.json
 fragments.ts
 fragments.js
-service.fragments.ts
-service.fragments.js
+server.fragments.ts
+server.fragments.js
 graphql.d.ts
 server/interfaces/graphql.d.ts

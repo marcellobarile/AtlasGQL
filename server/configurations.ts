@@ -1,9 +1,7 @@
 import root from 'app-root-path';
-import Constants from '../server/helpers/constants';
+import Constants from './helpers/constants';
 
 class Configurations {
-  private static sessionHash = new Date().getTime().toString(16);
-
   public static ServerKey: string;
   public static ServerAddr: string;
   public static ServerPort: string | number;
@@ -33,6 +31,8 @@ class Configurations {
   public static Remotes: Record<string, string>;
 
   public static Custom: Record<string, any>;
+
+  private static sessionHash = new Date().getTime().toString(16);
 
   public static load(
     confs: Record<string, any>,

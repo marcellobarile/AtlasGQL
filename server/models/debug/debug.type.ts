@@ -1,7 +1,7 @@
 // tslint:disable: arrow-parens
 
 import { Field, ObjectType } from 'type-graphql';
-import { Configurations } from '../../../config';
+import { Configurations } from '../../configurations';
 
 @ObjectType({ description: 'Some debug information about the server' })
 export class DebugInfo {

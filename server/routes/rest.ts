@@ -1,6 +1,6 @@
 import root from 'app-root-path';
 import { NextFunction, Request, Response, Router } from 'express';
-import { Configurations } from '../../config';
+import { Configurations } from '../configurations';
 
 const router = Router();
 
@@ -15,17 +15,6 @@ router.get('/types', (_req: Request, res: Response, _next: NextFunction) => {
     `${Configurations.AppName}-types.ts`
   );
 });
-
-// TODO:FIXME: Fragments do not get generated
-router.get(
-  '/fragments',
-  (_req: Request, res: Response, _next: NextFunction) => {
-    res.download(
-      `${root}/graphql/static/service.fragments.js`,
-      `${Configurations.AppName}-fragments.ts`
-    );
-  }
-);
 
 const normalizeRoutePath = (path: string): string => {
   return path[0] !== '/' ? (path = `/${path}`) : path;

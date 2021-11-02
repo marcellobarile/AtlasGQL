@@ -9,10 +9,8 @@ import fs from 'fs';
 import http from 'http';
 import logger from 'morgan';
 import multer from 'multer';
-import request from 'request-promise-native';
-import { Configurations } from './config';
+import { Configurations } from './server/configurations';
 import { GraphQlServer, GraphQlServerOptions } from './server';
-import { CommonHelpers } from './server/helpers/common';
 import Constants from './server/helpers/constants';
 import { PostInitHook, PreInitHook } from './server/hooks';
 import restRoutes, { registerCustomRoutes } from './server/routes/rest';
@@ -42,10 +40,6 @@ class Server {
     this.isDev =
       Configurations.ServerEnv === Constants.ENV_DEV ||
       Configurations.ServerEnv === Constants.ENV_TEST;
-
-    if (this.isDev) {
-      request.debug = true;
-    }
   }
 
   private isDev = false;
