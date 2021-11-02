@@ -1,25 +1,24 @@
 // tslint:disable: arrow-parens
 
 import { Field, ObjectType } from 'type-graphql';
-
-import { Conf } from '../../../config/common';
+import { Configurations } from '../../../config';
 
 @ObjectType({ description: 'Some debug information about the server' })
 export class DebugInfo {
   @Field({ nullable: false })
-  public startedAt: number = Conf.AppStartedAt;
+  public startedAt: number = Configurations.AppStartedAt;
 
-  @Field(type => String, { nullable: false })
+  @Field((type) => String, { nullable: false })
   get version(): string {
-    return Conf.AppVersion;
+    return Configurations.AppVersion;
   }
 
-  @Field(type => String, { nullable: false })
+  @Field((type) => String, { nullable: false })
   get name(): string {
-    return Conf.AppName;
+    return Configurations.AppName;
   }
 
-  @Field(type => Number, { nullable: false })
+  @Field((type) => Number, { nullable: false })
   get uptime(): number {
     return new Date().getTime() - this.startedAt;
   }

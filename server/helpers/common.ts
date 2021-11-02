@@ -1,12 +1,6 @@
 import { spawn } from 'child_process';
 
-class Common {
-  public static constants = {
-    ENV_DEV: 'development',
-    ENV_TEST: 'stage',
-    ENV_PROD: 'production'
-  };
-
+class CommonHelpers {
   /**
    *  Executes a given NPM script
    * @param {string} scriptName The name of the NPM script to be executed
@@ -32,4 +26,4 @@ class Common {
   }
 }
 
-export { Common };
+export { CommonHelpers };

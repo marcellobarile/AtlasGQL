@@ -1,39 +1,39 @@
 // TODO: See https://www.apollographql.com/docs/apollo-server/data/subscriptions/
-import { PubSub } from 'graphql-subscriptions';
+// import { PubSub } from 'graphql-subscriptions';
 
-class PubSubManager {
-  public static ON_DATA_MSG = 'onData';
+// class PubSubManager {
+//   public static ON_DATA_MSG = 'onData';
 
-  constructor() {
-    if (PubSubManager._instance) {
-      throw new Error(
-        'Error: Instantiation failed: Use PubSubManager.getInstance() instead of new.'
-      );
-    }
-    PubSubManager._instance = this;
-    this._pubsub = new PubSub();
-  }
+//   constructor() {
+//     if (PubSubManager._instance) {
+//       throw new Error(
+//         'Error: Instantiation failed: Use PubSubManager.getInstance() instead of new.'
+//       );
+//     }
+//     PubSubManager._instance = this;
+//     this._pubsub = new PubSub();
+//   }
 
-  private static _instance: PubSubManager = new PubSubManager();
-  private _pubsub;
+//   private static _instance: PubSubManager = new PubSubManager();
+//   private _pubsub;
 
-  public static getInstance(): PubSubManager {
-    return PubSubManager._instance;
-  }
+//   public static getInstance(): PubSubManager {
+//     return PubSubManager._instance;
+//   }
 
-  public get pubsub(): any {
-    return this._pubsub;
-  }
+//   public get pubsub(): any {
+//     return this._pubsub;
+//   }
 
-  public publish() {
-    /* TODO: tbd */
-  }
-  public subscribe() {
-    /* TODO: tbd */
-  }
-  public unsubscribe() {
-    /* TODO: tbd */
-  }
-}
+//   public publish() {
+//     /* TODO: tbd */
+//   }
+//   public subscribe() {
+//     /* TODO: tbd */
+//   }
+//   public unsubscribe() {
+//     /* TODO: tbd */
+//   }
+// }
 
-export { PubSubManager };
+// export { PubSubManager };

@@ -2,7 +2,7 @@ const root = require('app-root-path').path;
 
 module.exports = {
   mode: 'production',
-  entry: `${root}/bin/www.ts`,
+  entry: `${root}/test_server/index.ts`,
   target: 'node',
   externals: [
     /^[a-z\-0-9]+$/, // Ignore node_modules folder

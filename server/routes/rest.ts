@@ -1,28 +1,43 @@
 import root from 'app-root-path';
-import * as express from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
+import { Configurations } from '../../config';
 
-import { Conf } from '../../config/common';
+const router = Router();
 
-const router = express.Router();
+export interface CustomRoute {
+  path: string;
+  handler: (req: Request, res: Response, next: NextFunction) => void;
+}
 
-router.get(
-  '/types',
-  (_req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    res.download(
-      `${root}/server/interfaces/graphql.d.ts`,
-      `${Conf.AppName}-types.ts`
-    );
-  }
-);
+router.get('/types', (_req: Request, res: Response, _next: NextFunction) => {
+  res.download(
+    `${root}/server/interfaces/graphql.d.ts`,
+    `${Configurations.AppName}-types.ts`
+  );
+});
 
+// TODO:FIXME: Fragments do not get generated
 router.get(
   '/fragments',
-  (_req: express.Request, res: express.Response, _next: express.NextFunction) => {
+  (_req: Request, res: Response, _next: NextFunction) => {
     res.download(
       `${root}/graphql/static/service.fragments.js`,
-      `${Conf.AppName}-fragments.ts`
+      `${Configurations.AppName}-fragments.ts`
     );
   }
 );
 
-export = router;
+const normalizeRoutePath = (path: string): string => {
+  return path[0] !== '/' ? (path = `/${path}`) : path;
+};
+
+// TODO: Support other methods
+const registerCustomRoutes = (routes: CustomRoute[]) => {
+  routes.forEach((route: CustomRoute) => {
+    router.get(normalizeRoutePath(route.path), route.handler);
+  });
+};
+
+export { registerCustomRoutes };
+
+export default router;

@@ -1,17 +1,49 @@
-import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
+import {
+  ApolloServerPluginLandingPageDisabled,
+  GraphQLRequestContext,
+  GraphQLResponse,
+} from 'apollo-server-core';
 import { ApolloServer, CorsOptions } from 'apollo-server-express';
-import { execute, GraphQLSchema, subscribe } from 'graphql';
+import express from 'express';
+import {
+  GraphQLError,
+  GraphQLFormattedError,
+  ValidationContext,
+} from 'graphql';
 import { Server } from 'http';
 import pathUtils from 'path';
 import 'reflect-metadata';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { buildSchema } from 'type-graphql';
-import context from './context';
-import formatError from './errors';
-import formatResponse from './extensions';
-import middlewares from './middlewares';
+import context, { compose as composeContext } from './context';
+import middlewares, { Middlewares } from './middlewares';
 import resolvers from './models';
-import validationRules from './validationRules';
+import { CustomRoute } from './routes/rest';
+
+export interface GraphQlServerOptions {
+  customContext?: Context;
+  validationRules?: ((context: ValidationContext) => any)[];
+  formatResponse?: (
+    response: GraphQLResponse,
+    requestContext: GraphQLRequestContext<Record<string, any>>
+  ) => GraphQLResponse | null;
+  formatError?: (error: GraphQLError) => GraphQLFormattedError;
+  hooks?: {
+    preInit?: () => void;
+    postInit?: () => void;
+  };
+  middlewares?: Middlewares;
+  restRoutes?: CustomRoute[];
+  resolvers?: any[];
+}
+
+export type Context = ({
+  req,
+  res,
+}: {
+  req: any;
+  res: any;
+}) => Record<string, unknown>;
 
 class GraphQlServer {
   public static server: ApolloServer;
@@ -20,28 +52,61 @@ class GraphQlServer {
 
   public static async createServer(
     path: string,
-    app: any,
+    app: express.Express,
     corsOpts: CorsOptions | boolean,
-    developmentMode: boolean
+    developmentMode: boolean,
+    serverOpts: GraphQlServerOptions
   ): Promise<void> {
+    app.disable('x-powered-by');
+
+    const combinedResolvers = [...resolvers, ...(serverOpts.resolvers || [])];
+
     const schema = await buildSchema({
-      resolvers: resolvers as any,
+      resolvers: combinedResolvers as any,
       emitSchemaFile: pathUtils.resolve(process.cwd(), 'schema.graphql'),
     });
 
-    // Registering middlewares before Apollo
-    if (middlewares.beforeApollo.length > 0) {
-      app.use(path, [...middlewares.beforeApollo]);
+    let beforeApolloMiddlewares: any[] = [...middlewares.beforeApollo];
+
+    if (
+      serverOpts.middlewares?.beforeApollo &&
+      serverOpts.middlewares.beforeApollo.length > 0
+    ) {
+      beforeApolloMiddlewares = [
+        ...serverOpts.middlewares?.beforeApollo,
+        ...beforeApolloMiddlewares,
+      ];
     }
 
-    app.disable('x-powered-by');
+    if (beforeApolloMiddlewares.length > 0) {
+      app.use(path, beforeApolloMiddlewares);
+    }
+
+    // Registering dev middlewares before Apollo
+    let devMiddlewares: any[] = [...middlewares.beforeApolloDev];
+
+    if (
+      serverOpts.middlewares?.beforeApolloDev &&
+      serverOpts.middlewares.beforeApolloDev.length > 0
+    ) {
+      devMiddlewares = [
+        ...serverOpts.middlewares?.beforeApolloDev,
+        ...devMiddlewares,
+      ];
+    }
+
+    if (devMiddlewares.length > 0) {
+      app.use(path, devMiddlewares);
+    }
 
     this.server = new ApolloServer({
       schema,
-      context,
-      formatResponse: formatResponse as any,
-      formatError,
-      validationRules,
+      context: serverOpts.customContext
+        ? composeContext(serverOpts.customContext)
+        : context,
+      formatResponse: serverOpts.formatResponse as any,
+      formatError: serverOpts.formatError,
+      validationRules: serverOpts.validationRules,
       introspection: true,
       plugins: !developmentMode
         ? [ApolloServerPluginLandingPageDisabled()]
@@ -57,39 +122,30 @@ class GraphQlServer {
       cors: corsOpts,
     });
 
-    // Registering middlewares after Apollo
-    if (middlewares.afterApollo.length > 0) {
-      app.use(path, [...middlewares.afterApollo]);
-    }
-
-    // Registering dev middlewares after Apollo
-    if (developmentMode && middlewares.dev.length > 0) {
-      app.use(path, [...middlewares.dev]);
-    }
-
-    this.createSubscriptionServer(schema);
+    // this.createSubscriptionServer(schema);
   }
 
   /**
    * Registers the subscription server for GraphQL subscriptions.
    */
-  private static createSubscriptionServer(schema: GraphQLSchema): void {
-    this.subscriptionServer = SubscriptionServer.create(
-      {
-        schema,
-        execute,
-        subscribe,
-      },
-      {
-        server: this.httpServer,
-        path: this.server.graphqlPath,
-      }
-    );
+  // TODO: Commented out due to an incompatibility between apollo server and graphql versions
+  // private static createSubscriptionServer(schema: GraphQLSchema): void {
+  //   this.subscriptionServer = SubscriptionServer.create(
+  //     {
+  //       schema,
+  //       execute,
+  //       subscribe,
+  //     },
+  //     {
+  //       server: this.httpServer,
+  //       path: this.server.graphqlPath,
+  //     }
+  //   );
 
-    ['SIGINT', 'SIGTERM'].forEach((signal) => {
-      process.on(signal, () => this.subscriptionServer.close());
-    });
-  }
+  //   ['SIGINT', 'SIGTERM'].forEach((signal) => {
+  //     process.on(signal, () => this.subscriptionServer.close());
+  //   });
+  // }
 }
 
 export { GraphQlServer };
