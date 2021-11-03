@@ -28,18 +28,9 @@ class Configurations {
   public static ViewsEngine: string;
   public static ViewsSrcPath: string;
 
-  public static Remotes: Record<string, string>;
-
-  public static Custom: Record<string, any>;
-
   private static sessionHash = new Date().getTime().toString(16);
 
-  public static load(
-    env: ENV,
-    envId: number,
-    confs: Record<string, any>,
-    customConfs: Record<string, any>
-  ) {
+  public static load(env: ENV, envId: number, confs: Record<string, any>) {
     Configurations.AppVersion = confs.version;
     Configurations.AppId = confs.id || Configurations.sessionHash;
     Configurations.AppName = confs.name || Configurations.sessionHash;
@@ -57,8 +48,6 @@ class Configurations {
       '__root',
       root.toString()
     );
-    Configurations.Remotes = confs.remotes;
-    Configurations.Custom = customConfs;
 
     Configurations.ServerAddr = Configurations.DefaultAppAddr;
     Configurations.ServerPort = String(Configurations.DefaultAppPort);

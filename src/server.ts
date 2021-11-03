@@ -32,10 +32,9 @@ class Server {
     private confs: {
       serverOpts?: GraphQlServerOptions;
       defaultConfs: Record<string, any>;
-      customConfs: Record<string, any>;
     }
   ) {
-    Configurations.load(env, envId, confs.defaultConfs, confs.customConfs);
+    Configurations.load(env, envId, confs.defaultConfs);
 
     this.debug.log = console.log.bind(console);
 

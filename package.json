@@ -73,6 +73,13 @@
     "subscriptions-transport-ws": "^0.9.19",
     "type-graphql": "^1.1.1"
   },
+  "peerDependencies": {
+    "@types/express": "4.x",
+    "apollo-server-types": "3.x",
+    "graphql": "^15.x",
+    "type-graphql": "1.x",
+    "typescript": "4.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/marcellobarile/atlasgql"
