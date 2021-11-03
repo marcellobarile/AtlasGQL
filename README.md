@@ -75,8 +75,8 @@ The application generates a types definition file and exposes it by accessing th
 ### **Setup**
 
 ```
-npm i --dev typescript@4.x
-npm i atlasgql type-graphql@1.x
+npm i typescript@4.x @types/express@4.x apollo-server-types@3.x graphql@15.x --also=dev
+npm i atlasgql type-graphql@1.x class-validator@0.x
 ```
 
 ### **A quick example of a consumer app (take your time to go through it)**

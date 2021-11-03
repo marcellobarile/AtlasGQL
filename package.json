@@ -78,6 +78,7 @@
     "apollo-server-types": "3.x",
     "graphql": "^15.x",
     "type-graphql": "1.x",
+    "class-validator": "0.x",
     "typescript": "4.x"
   },
   "repository": {
