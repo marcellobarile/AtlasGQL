@@ -62,19 +62,15 @@ The GraphQL response can be re-shaped or expanded using a custom function that w
 
 For the Express framework, middlewares are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named "next".
 
-You can define any custom middleware that you need in the configuration object (see the example below).
-
 ### **Working with custom validation rules**
 
 The so called "validation rules" are additional GraphQL validations that get applied to client-specified queries.
 
 For further information: (default rules already applied [https://github.com/graphql/graphql-js/tree/master/src/validation/rules](https://github.com/graphql/graphql-js/tree/master/src/validation/rules))
 
-**All of the entities above can be configured in the options object (see the example below).**
-
 ### **About auto-generated TypeScript definitions**
 
-The application exposes a endpoint to download the types definition by accessing the (`{rest_endpoint}/types`) endpoint.
+The application generates a types definition file and exposes it by accessing the (`{rest_endpoint}/types`) endpoint.
 
 ### **Setup**
 
