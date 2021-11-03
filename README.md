@@ -4,7 +4,7 @@
 
 ### **GraphQL schema and resolvers self-composition (Code-first approach)**
 
-Thanks to [type-graphql](https://typegraphql.ml), **AtlasGQL** is capable of generating the GraphQL schema at- run-time during the bootstrap.
+Thanks to [type-graphql](https://typegraphql.com), **AtlasGQL** is capable of generating the GraphQL schema at- run-time during the bootstrap.
 
 This means that you don't need to know GraphQL for using it, you can write your own resolvers in TypeScript; go [here](https://typegraphql.ml/docs/introduction.html) for further information.
 
