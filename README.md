@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/marcellobarile/atlasgql.svg?branch=master)](https://travis-ci.org/marcellobarile/atlasgql)
-[![install size](https://packagephobia.now.sh/badge?p=atlasgql)](https://packagephobia.now.sh/result?p=atlasgql)
-
 ![AtlasGQL](https://i.imgur.com/T0pZSju.jpeg)
 
 ### **GraphQL schema and resolvers self-composition (Code-first approach)**
