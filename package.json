@@ -23,7 +23,7 @@
     "WebService"
   ],
   "author": "Marcello Barile <marcello.barile@gmail.com>",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "@types/app-root-path": "^1.2.4",
     "@types/compression": "^1.7.2",
