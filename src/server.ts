@@ -9,11 +9,11 @@ import fs from 'fs';
 import http from 'http';
 import logger from 'morgan';
 import multer from 'multer';
-import { Configurations } from './server/configurations';
-import { GraphQlServer, GraphQlServerOptions } from './server';
-import Constants from './server/helpers/constants';
-import { PostInitHook, PreInitHook } from './server/hooks';
-import restRoutes, { registerCustomRoutes } from './server/routes/rest';
+import { Configurations } from './configurations';
+import { GraphQlServer, GraphQlServerOptions } from './graphqlServer';
+import { ENV } from './helpers/constants';
+import { PostInitHook, PreInitHook } from './hooks';
+import restRoutes, { registerCustomRoutes } from './routes/rest';
 
 export enum EVENTS {
   APOLLO_READY = 'onApolloReady',
@@ -27,19 +27,21 @@ class Server {
   public events: EventEmitter = new EventEmitter();
 
   constructor(
+    env: ENV,
+    envId: number,
     private confs: {
       serverOpts?: GraphQlServerOptions;
       defaultConfs: Record<string, any>;
       customConfs: Record<string, any>;
     }
   ) {
-    Configurations.load(confs.defaultConfs, confs.customConfs);
+    Configurations.load(env, envId, confs.defaultConfs, confs.customConfs);
 
     this.debug.log = console.log.bind(console);
 
     this.isDev =
-      Configurations.ServerEnv === Constants.ENV_DEV ||
-      Configurations.ServerEnv === Constants.ENV_TEST;
+      Configurations.ServerEnv === ENV.DEV ||
+      Configurations.ServerEnv === ENV.TEST;
   }
 
   private isDev = false;
@@ -246,15 +248,16 @@ class Server {
 
   private handleExit() {
     process.stdin.resume();
-    process.on('uncaughtException', this.onExit);
-    process.on('beforeExit', this.onExit);
-    process.on('SIGINT', this.onExit);
-    process.on('SIGTERM', this.onExit);
+    process.on('uncaughtException', () => this.onExit());
+    process.on('beforeExit', () => this.onExit());
+    process.on('SIGINT', () => this.onExit());
+    process.on('SIGTERM', () => this.onExit());
   }
 
   private sayWelcome() {
     const welcomeMessage = ` => Service up and running <= `;
     const serverAddressMessage = ` Listening on http://${Configurations.ServerAddr}:${Configurations.ServerPort} `;
+
     const serverKeyMessage = ` The Service ID is ${Configurations.ServerKey} `;
     console.log('\n');
     console.log(
@@ -270,7 +273,7 @@ class Server {
     console.log(chalk.white.bgBlack(serverKeyMessage));
     console.log('\n');
 
-    if (Configurations.ServerEnv === Constants.ENV_DEV) {
+    if (this.isDev) {
       console.log(
         `If you want to quickly try the server, go to http://${Configurations.ServerAddr}:${Configurations.ServerPort}${Configurations.GraphQlPath} and try the following query:`
       );
@@ -286,6 +289,7 @@ query demo {
 }
 -------------------------`
       );
+
       console.log('\n');
     }
   }

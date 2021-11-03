@@ -16,6 +16,7 @@ import 'reflect-metadata';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { buildSchema } from 'type-graphql';
 import context, { compose as composeContext } from './context';
+import { InterfacesAutomation } from './interfaces/automation';
 import middlewares, { Middlewares } from './middlewares';
 import resolvers from './models';
 import { CustomRoute } from './routes/rest';
@@ -78,11 +79,11 @@ class GraphQlServer {
       ];
     }
 
+    // Registering dev middlewares before Apollo
     if (beforeApolloMiddlewares.length > 0) {
       app.use(path, beforeApolloMiddlewares);
     }
 
-    // Registering dev middlewares before Apollo
     let devMiddlewares: any[] = [...middlewares.beforeApolloDev];
 
     if (
@@ -115,7 +116,8 @@ class GraphQlServer {
 
     await this.server.start();
 
-    // Registering middlewares on Apollo
+    InterfacesAutomation.generate(schema);
+
     this.server.applyMiddleware({
       app,
       path,

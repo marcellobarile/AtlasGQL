@@ -1,6 +1,5 @@
-import root from 'app-root-path';
 import { NextFunction, Request, Response, Router } from 'express';
-import { Configurations } from '../configurations';
+import { InterfacesAutomation } from '../interfaces/automation';
 
 const router = Router();
 
@@ -10,10 +9,9 @@ export interface CustomRoute {
 }
 
 router.get('/types', (_req: Request, res: Response, _next: NextFunction) => {
-  res.download(
-    `${root}/server/interfaces/graphql.d.ts`,
-    `${Configurations.AppName}-types.ts`
-  );
+  res.attachment('graphql.d.ts');
+  res.type('txt');
+  res.send(InterfacesAutomation.blob);
 });
 
 const normalizeRoutePath = (path: string): string => {

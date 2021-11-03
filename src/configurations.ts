@@ -1,5 +1,5 @@
 import root from 'app-root-path';
-import Constants from './helpers/constants';
+import { ENV } from './helpers/constants';
 
 class Configurations {
   public static ServerKey: string;
@@ -35,6 +35,8 @@ class Configurations {
   private static sessionHash = new Date().getTime().toString(16);
 
   public static load(
+    env: ENV,
+    envId: number,
     confs: Record<string, any>,
     customConfs: Record<string, any>
   ) {
@@ -58,16 +60,10 @@ class Configurations {
     Configurations.Remotes = confs.remotes;
     Configurations.Custom = customConfs;
 
-    Configurations.ServerAddr =
-      process.env.ADDR || Configurations.DefaultAppAddr;
-
-    Configurations.ServerPort =
-      process.env.PORT || String(Configurations.DefaultAppPort);
-
-    Configurations.ServerEnv = process.env.NODE_ENV || Constants.ENV_DEV;
-
-    Configurations.ServerEnvId = process.env.NODE_ENV_ID || 1;
-
+    Configurations.ServerAddr = Configurations.DefaultAppAddr;
+    Configurations.ServerPort = String(Configurations.DefaultAppPort);
+    Configurations.ServerEnv = env;
+    Configurations.ServerEnvId = envId;
     Configurations.ServerKey = `${Configurations.AppName}:${Configurations.ServerEnv}-${Configurations.ServerEnvId}`;
   }
 }

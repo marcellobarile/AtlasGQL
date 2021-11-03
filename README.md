@@ -1,6 +1,6 @@
-[![Build Status](https://travis-ci.org/marcellobarile/atlasql.svg?branch=master)](https://travis-ci.org/marcellobarile/type-graphql-has)
+[![Build Status](https://travis-ci.org/marcellobarile/atlasgql.svg?branch=master)](https://travis-ci.org/marcellobarile/type-graphql-has)
 
-# **AtlasQL**
+# **AtlasGQL**
 
 A self-composing GraphQL server library for quickly start up a GraphQL server.
 

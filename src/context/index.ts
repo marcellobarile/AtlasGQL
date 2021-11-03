@@ -1,4 +1,4 @@
-import { Context } from '..';
+import { Context } from '../graphqlServer';
 
 const defaultContext = ({ req, res }) => ({
   cookie: req.headers.cookie,

@@ -5,10 +5,16 @@ class CommonHelpers {
    *  Executes a given NPM script
    * @param {string} scriptName The name of the NPM script to be executed
    */
-  public static executeNpmScript(scriptName: string) {
+  public static executeNpmScript(
+    scriptName: string,
+    useExplore: boolean = false
+  ) {
+    const npmCmd = /^win/.test(process.platform) ? `npm.cmd` : `npm`;
     const child = spawn(
-      /^win/.test(process.platform) ? `npm.cmd` : `npm`,
-      ['run', scriptName],
+      npmCmd,
+      useExplore
+        ? ['explore', 'atlasgql', '--', npmCmd, 'run', scriptName]
+        : ['run', scriptName],
       { stdio: 'pipe' }
     );
 
