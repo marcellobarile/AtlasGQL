@@ -39,7 +39,7 @@ The library can be configured following the JSON oject below. That's all you nee
     "path": "/static"
   },
   "views": {
-    "src": "__root/server/views/",
+    "src": "__root/src/views/",
     "engine": "ejs"
   },
   "cors": {
@@ -176,7 +176,7 @@ const restRoutes: CustomRoute[] = [
 // See: https://github.com/graphql/graphql-js/tree/main/src/validation/rules
 const validationRules: ((context: ValidationContext) => any)[] = [];
 
-// Note: the Apolo Studio will be disabled on production instances
+// Note: the Apollo Studio will be disabled on production instances
 const env = ENV.DEV;
 
 // Note: an identifier that can be useful in case of multiple envs
