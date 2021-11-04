@@ -91,7 +91,7 @@ import {
 import { PerformancesResolver } from './models/perf/perf.resolver';
 import DefaultConfs from './serviceconfig.json';
 
-// A list of your own resolvers (see below for an example)
+// A list of your resolvers (see below for an example)
 const resolvers = [PerformancesResolver];
 
 /**
