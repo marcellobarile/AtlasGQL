@@ -38,10 +38,6 @@ The library can be configured following the JSON oject below. That's all you nee
   "rest": {
     "path": "/static"
   },
-  "views": {
-    "src": "__root/src/views/",
-    "engine": "ejs"
-  },
   "cors": {
     "origin": ["*", "https://studio.apollographql.com"],
     "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
