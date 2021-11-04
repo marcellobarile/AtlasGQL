@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "id": "",
+  "name": "",
+  "defaults": {
+    "port": 3000,
+    "addr": "localhost"
+  },
+  "graphql": {
+    "path": "/graphql"
+  },
+  "rest": {
+    "path": "/static"
+  },
+  "views": {
+    "src": "__root/server/views/",
+    "engine": "ejs"
+  },
+  "cors": {
+    "origin": [
+      "*",
+      "https://studio.apollographql.com"
+    ],
+    "methods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "PATCH",
+      "POST",
+      "DELETE"
+    ],
+    "enabled": true,
+    "preflightContinue": false,
+    "optionsSuccessStatus": 200
+  }
+}

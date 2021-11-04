@@ -6,6 +6,8 @@ Thanks to [type-graphql](https://typegraphql.com), **AtlasGQL** is capable of ge
 
 This means that you don't need to know GraphQL for using it, you can write your own resolvers in TypeScript; go [here](https://typegraphql.ml/docs/introduction.html) for further information.
 
+If you feel confident already, you can jump straight to the "example" folder where there is a ready-to-run demo of a server implementing AtlasGQL.
+
 ---
 
 ### **Tech. stack:**
