@@ -1,6 +1,6 @@
 {
   "name": "atlasgql",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A self-composing GraphQL server library using TypeScript, Express and Apollo Server",
   "private": false,
   "directories": {
