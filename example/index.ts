@@ -1,11 +1,12 @@
 import { GraphQLRequestContext, GraphQLResponse } from "apollo-server-types";
-import { CustomRoute, ENV, EVENTS, Middlewares, Server } from "atlasgql";
 import express, { NextFunction, Request, Response } from "express";
 import {
   GraphQLError,
   GraphQLFormattedError,
-  ValidationContext,
+  ValidationContext
 } from "graphql";
+import { CustomRoute, ENV, EVENTS, Middlewares, Server } from "../src";
+// or import { CustomRoute, ENV, EVENTS, Middlewares, Server } from "atlasgql";
 import { PerformancesResolver } from "./models/perf/perf.resolver";
 import DefaultConfs from "./serviceconfig.json";
 

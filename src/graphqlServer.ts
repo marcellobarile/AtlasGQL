@@ -1,14 +1,15 @@
+import { PossibleSchemaInput } from '@gql2ts/util';
 import {
   ApolloServerPluginLandingPageDisabled,
   GraphQLRequestContext,
-  GraphQLResponse,
+  GraphQLResponse
 } from 'apollo-server-core';
 import { ApolloServer, CorsOptions } from 'apollo-server-express';
 import express from 'express';
 import {
   GraphQLError,
   GraphQLFormattedError,
-  ValidationContext,
+  ValidationContext
 } from 'graphql';
 import { Server } from 'http';
 import pathUtils from 'path';
@@ -116,7 +117,7 @@ class GraphQlServer {
 
     await this.server.start();
 
-    InterfacesAutomation.generate(schema);
+    InterfacesAutomation.generate(schema as PossibleSchemaInput);
 
     this.server.applyMiddleware({
       app,
