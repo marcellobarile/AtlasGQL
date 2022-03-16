@@ -109,7 +109,8 @@ class GraphQlServer {
       formatResponse: serverOpts.formatResponse as any,
       formatError: serverOpts.formatError,
       validationRules: serverOpts.validationRules,
-      introspection: true,
+      introspection: developmentMode,
+      debug: developmentMode,
       plugins: !developmentMode
         ? [ApolloServerPluginLandingPageDisabled()]
         : undefined,
