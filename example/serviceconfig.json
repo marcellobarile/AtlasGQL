@@ -13,7 +13,7 @@
     "path": "/static"
   },
   "views": {
-    "src": "__root/server/views/",
+    "src": "__root/src/views/",
     "engine": "ejs"
   },
   "cors": {
