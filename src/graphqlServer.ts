@@ -61,6 +61,10 @@ class GraphQlServer {
   ): Promise<void> {
     app.disable('x-powered-by');
 
+    if (serverOpts.middlewares?.global?.length) {
+      app.use(serverOpts.middlewares.global);
+    }
+
     const combinedResolvers = [...resolvers, ...(serverOpts.resolvers || [])];
 
     const schema = await buildSchema({

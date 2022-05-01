@@ -5,6 +5,7 @@ import {
   GraphQLFormattedError,
   ValidationContext
 } from "graphql";
+import rateLimit from 'express-rate-limit';
 import { CustomRoute, ENV, EVENTS, Middlewares, Server } from "../src";
 // or import { CustomRoute, ENV, EVENTS, Middlewares, Server } from "atlasgql";
 import { PerformancesResolver } from "./models/perf/perf.resolver";
@@ -41,10 +42,19 @@ const postInitHook = () => {
   console.log("[Hook] The server has been started.");
 };
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 const middlewares: Middlewares = {
+  // Global middlwares are registered to the whole express app
+  global: [limiter],
+  // "Before apollo" middlewares are registered to the graphql path and ran before apollo
   beforeApollo: [
     (_req: express.Request, _res: express.Response, next: () => void) => {
-      // This will run before Apollo
       return next();
     },
   ],

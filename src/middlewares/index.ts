@@ -9,11 +9,13 @@ import { RequestHandler } from 'express';
 // If you need to format the response, you can utilize the formatResponse or formatErrors options
 
 export interface Middlewares {
+  global?: RequestHandler[];
   beforeApollo?: RequestHandler[];
   beforeApolloDev?: RequestHandler[];
 }
 
 export default {
+  global: [],
   beforeApollo: [],
   beforeApolloDev: [],
 };

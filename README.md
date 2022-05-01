@@ -39,7 +39,7 @@ The library can be configured following the JSON oject below. That's all you nee
     "path": "/static"
   },
   "cors": {
-    "origin": ["*", "https://studio.apollographql.com"],
+    "origin": ["http://localhost", "https://studio.apollographql.com"],
     "methods": ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
     "enabled": true,
     "preflightContinue": false,
@@ -59,6 +59,10 @@ The GraphQL response can be re-shaped or expanded using a custom function that w
 ### **Adding GraphQL middlewares**
 
 For the Express framework, middlewares are functions that have access to the request object (req), the response object (res), and the next middleware function in the application’s request-response cycle. The next middleware function is commonly denoted by a variable named "next".
+
+### **Adding global Express middlewares**
+
+It's possible to configure middlewares directly to the Express app instance. Check the demo below.
 
 ### **Working with custom validation rules**
 
@@ -83,6 +87,7 @@ npm i atlasgql type-graphql@1.x class-validator@0.x
 import { GraphQLRequestContext, GraphQLResponse } from 'apollo-server-types';
 import { CustomRoute, ENV, EVENTS, Middlewares, Server } from 'atlasgql';
 import express, { NextFunction, Request, Response } from 'express';
+import rateLimit from 'express-rate-limit';
 import {
   GraphQLError,
   GraphQLFormattedError,
@@ -140,13 +145,22 @@ const postInitHook = () => {
   console.log('[Hook] The server has been started.');
 };
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 /**
  * A list of Express middlewares
  */
 const middlewares: Middlewares = {
+  // Global middlwares are registered to the whole express app
+  global: [limiter],
+  // "Before apollo" middlewares are registered to the graphql path and ran before apollo
   beforeApollo: [
     (_req: express.Request, _res: express.Response, next: () => void) => {
-      // This will run before Apollo
       return next();
     },
   ],
